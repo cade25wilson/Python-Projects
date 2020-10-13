@@ -1,9 +1,9 @@
 class Person:
     #Attributes for people who are involved in a school
-    name = 'Tom'
-    id_number = '1399822'
-    password = 'Schoolsecurity0915'
-    age = '24'
+    name = ''
+    id_number = ''
+    password = ''
+    age = ''
 
     def selfIntro(Self):
         self_name = input("Enter your name: ")
@@ -11,8 +11,8 @@ class Person:
         print("My name is {}, and I am a {} year old at this school".format(self_name, self_age))
     
 class Student(Person):
-    grade_level = 'Freshman'
-    major = 'psychology'
+    grade_level = ''
+    major = ''
 
     def selfIntro(Self):
         self_name = input("Enter your name: ")
@@ -21,9 +21,9 @@ class Student(Person):
     
 
 class Employee(Person):
-    pay_rate = '15.00'
-    weekly_schedule = 'Mon, Thur, Fri'
-    job = 'janitor'
+    pay_rate = ''
+    weekly_schedule = ''
+    job = ''
 
     def selfIntro(Self):
         self_name = input("Enter your name: ")
