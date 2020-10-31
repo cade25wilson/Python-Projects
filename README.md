@@ -2,13 +2,13 @@
  Projects made on Python Using tkinter and sqlite3
 
 <h1>Projects</h1>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/transfer.py">File Transfer</a>, <br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/polymorphism.py">Polymorphism</a>,<br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/nice_or_mean.py">Nice or mean</a>,<br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/encapsulation.py">Encapsulation</a>,<br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/database.py">Database</a>,<br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/classes.py">Classes</a>,<br>
-<a href="https://github.com/cade25wilson/Python-Projects/blob/main/abstraction.py">Abstraction</a>,<br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/transfer.py">File Transfer</a> <br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/polymorphism.py">Polymorphism</a><br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/nice_or_mean.py">Nice or mean</a><br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/encapsulation.py">Encapsulation</a><br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/database.py">Database</a><br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/classes.py">Classes</a><br>
+<a href="https://github.com/cade25wilson/Python-Projects/blob/main/abstraction.py">Abstraction</a><br>
 <a href="https://github.com/cade25wilson/Python-Projects/blob/main/Auto_webpage.py">Webpage</a>
 
 <h3>File Transfer</h3>
