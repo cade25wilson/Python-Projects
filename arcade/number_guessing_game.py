@@ -19,15 +19,18 @@ def guessingGame():
             else:
                 print("Your guess was high, please enter a lower number")
             
-    user_Answer = input("Would you like to play again? Y = Yes, N = No \n")
+    user_Answer = input("Would you like to play again? Y = Yes, N = No, M = Menu\n")
     error_Check = user_Answer.upper()
     if error_Check == 'Y':
         guessingGame()
     elif error_Check =='N':
         print("thanks for playing!")
         quit()
+    elif error_Check =='M':
+        from arcade import menu_Screen
+        menu_Screen()
     else:
-        print("Please enter a 'Y' or 'N'")
+        print("Please enter a 'Y' 'N' or 'M'")
         user_Answer
 
 guessingGame()

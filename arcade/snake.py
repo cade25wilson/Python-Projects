@@ -62,7 +62,7 @@ def gameLoop():
  
         while game_close == True:
             dis.fill(blue)
-            message("You Lost! Press P-Play Again or Q-Quit", red)
+            message("You Lost! Press P-Play Again, Q to Quit, or M for Menu Screen", red)
             Your_score(Length_of_snake - 1)
             pygame.display.update()
  
@@ -73,6 +73,10 @@ def gameLoop():
                         game_close = False
                     if event.key == pygame.K_p:
                         gameLoop()
+                    if event.key == pygame.K_m:
+                        from arcade import menu_Screen
+                        menu_Screen()
+                            
  
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
