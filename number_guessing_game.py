@@ -19,7 +19,6 @@ def guessingGame():
             else:
                 print("Your guess was high, please enter a lower number")
             
-def playAgain():
     user_Answer = input("Would you like to play again? Y = Yes, N = No \n")
     error_Check = user_Answer.upper()
     if error_Check == 'Y':
@@ -29,8 +28,6 @@ def playAgain():
         quit()
     else:
         print("Please enter a 'Y' or 'N'")
-        playAgain()
-    
+        user_Answer
 
 guessingGame()
-playAgain()
