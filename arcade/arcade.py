@@ -9,8 +9,8 @@ class ParentWindow(Frame):
 
         self.master = master
         self.master.minsize(500, 230)
-        self.master.maxsize(500, 230)
-        self.master.title("Auto Move File")
+        self.master.maxsize(2000, 950)
+        self.master.title("Arcade by Cade Wilson")
         self.master.configure(bg="blue")
         
         self.found_source = StringVar()
