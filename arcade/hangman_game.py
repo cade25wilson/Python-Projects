@@ -41,16 +41,13 @@ def hang_Man():
             if turns == 0:
                   print("You Lose the word was",word)        
                   
-    repeat = input("Would you like to play again?\n Press Y for Yes, N for No, and M for Menu: ")
+    repeat = input("Would you like to play again?\n Press Y for Yes, or N for No: ")
     error_Check = repeat.upper()
     if error_Check == 'Y':
         hang_Man()
     elif error_Check == 'N':
         print("Thanks for playing!")
         quit()
-    elif error_Check == 'M':
-        from arcade import menu_Screen
-        menu_Screen()
     else:
         repeat
 
