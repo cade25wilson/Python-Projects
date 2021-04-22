@@ -8,7 +8,7 @@ class ParentWindow(Frame):
         Frame.__init__(self, master, *args, **kwargs)
 
         self.master = master
-        self.master.minsize(500, 230)
+        self.master.minsize(600, 230)
         self.master.maxsize(2000, 950)
         self.master.title("Arcade by Cade Wilson")
         self.master.configure(bg="blue")
@@ -31,8 +31,14 @@ class ParentWindow(Frame):
         self.btn_word = tk.Button(self.master, width=12, height=1, text="Play", command= self.word_Guess)
         self.btn_word.grid(row=0, column=3, padx=(10, 0), pady=(10, 20))
 
+        self.btn_word = tk.Button(self.master, width=12, height=1, text="View Scores", command= self.word_Score)
+        self.btn_word.grid(row=0, column=4, padx=(10, 0), pady=(10, 20))
+
         self.btn_num = tk.Button(self.master, width=12, height=1, text="Play",command= self.guessing_Game2)
         self.btn_num.grid(row=1, column=3, padx=(10, 0), pady=(10, 20))
+
+        self.btn_word = tk.Button(self.master, width=12, height=1, text="View Scores", command= self.num_Score)
+        self.btn_word.grid(row=1, column=4, padx=(10, 0), pady=(10, 20))
         
         self.btn_transfer = tk.Button(self.master, width=12, height=1, text="Play",command= self.snake2)
         self.btn_transfer.grid(row=2, column=3, padx=(10, 0), pady=(10, 20))
@@ -48,6 +54,14 @@ class ParentWindow(Frame):
     def snake2(self):
         from snake import gameLoop
         gameloop()
+
+    def num_Score(self):
+        f = open('number_guess_highscore.txt','r')
+        print(f.read())
+
+    def word_Score(self):
+        f = open('hangman_highscore.txt','r')
+        print(f.read())
 
 if __name__ == "__main__":
     root = tk.Tk()

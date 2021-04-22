@@ -39,7 +39,16 @@ def hang_Man():
             print("Wrong")
             print("You have", + turns, 'more tries')
             if turns == 0:
-                  print("You Lose the word was",word)        
+                  print("You Lose the word was",word)
+    f = open("hangman_highscore.txt", "a")
+    f.write("\n")
+    f.write(str(turns))
+    f.write(" ")
+    f.write(name.capitalize())
+    f.write(" ")
+    f.write(word)
+    f.close()
+    
                   
     repeat = input("Would you like to play again?\n Press Y for Yes, or N for No: ")
     error_Check = repeat.upper()
