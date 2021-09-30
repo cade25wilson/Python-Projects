@@ -1,16 +1,20 @@
 import sys
+import qrc_resources
 
+from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMenu, QToolBar
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMenu, QToolBar, QAction
 
+newIcon = QIcon(":file-new.svg")
 class Window(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
         self.setWindowTitle("Python Menu")
         self.resize(400, 200)
         self.centralWidget = QLabel("Hello, World")
         self.centralWidget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setCentralWidget(self.centralWidget)
+        self._createActions()
         self._createMenuBar()
         self._createToolBars()
     
@@ -19,14 +23,29 @@ class Window(QMainWindow):
         fileMenu = QMenu("&File", self)
         menuBar.addMenu(fileMenu)
         editMenu = menuBar.addMenu("&Edit")
-        helpMenu = menuBar.addMenu("&Help")
-    
+        helpMenu = menuBar.addMenu(QIcon(":help-content.svg"), "&Help")
+
     def _createToolBars(self):
         fileToolBar = self.addToolBar("File")
         editToolbar = QToolBar("Edit", self)
         self.addToolBar(editToolbar)
         helpToolbar = QToolBar("Help", self)
         self.addToolBar(Qt.LeftToolBarArea, helpToolbar)
+
+    def _createActions(self):
+        self.newAction = QAction(self)
+        self.newAction.setText("&New")
+        self.openAction = QAction("&Open", self)
+        self.saveAction = QAction("&Save", self)
+        self.exitAction = QAction("&Exit", self)
+        self.copyAction = QAction("&Copy", self)
+        self.pasteAction = QAction("&Paste", self)
+        self.cutAction = QAction("C&ut", self)
+        self.helpContentAction = QAction("&Help Content", self)
+        self.aboutAction = QAction("&About", self)
+
+
+    
 
 
 if __name__ == '__main__':
