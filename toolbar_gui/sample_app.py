@@ -22,8 +22,20 @@ class Window(QMainWindow):
         menuBar = self.menuBar()
         fileMenu = QMenu("&File", self)
         menuBar.addMenu(fileMenu)
+        fileMenu.addAction(self.newAction)
+        fileMenu.addAction(self.openAction)
+        fileMenu.addAction(self.saveAction)
+        fileMenu.addAction(self.exitAction)
         editMenu = menuBar.addMenu("&Edit")
+        editMenu.addAction(self.copyAction)
+        editMenu.addAction(self.pasteAction)
+        editMenu.addAction(self.cutAction)
+        findMenu = editMenu.addMenu("Find and replace")
+        findMenu.addAction("Find...")
+        findMenu.addAction("Replace")
         helpMenu = menuBar.addMenu(QIcon(":help-content.svg"), "&Help")
+        helpMenu.addAction(self.helpContentAction)
+        helpMenu.addAction(self.aboutAction)
 
     def _createToolBars(self):
         fileToolBar = self.addToolBar("File")
@@ -43,10 +55,6 @@ class Window(QMainWindow):
         self.cutAction = QAction("C&ut", self)
         self.helpContentAction = QAction("&Help Content", self)
         self.aboutAction = QAction("&About", self)
-
-
-    
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
