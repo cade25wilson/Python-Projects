@@ -39,20 +39,27 @@ class Window(QMainWindow):
 
     def _createToolBars(self):
         fileToolBar = self.addToolBar("File")
+        fileToolBar.addAction(self.newAction)
+        fileToolBar.addAction(self.openAction)
+        fileToolBar.addAction(self.saveAction)
         editToolbar = QToolBar("Edit", self)
         self.addToolBar(editToolbar)
+        editToolbar.addAction(self.copyAction)
+        editToolbar.addAction(self.pasteAction)
+        editToolbar.addAction(self.cutAction)
         helpToolbar = QToolBar("Help", self)
         self.addToolBar(Qt.LeftToolBarArea, helpToolbar)
 
     def _createActions(self):
         self.newAction = QAction(self)
         self.newAction.setText("&New")
-        self.openAction = QAction("&Open", self)
-        self.saveAction = QAction("&Save", self)
+        self.newAction.setIcon(QIcon(":file-new.svg"))
+        self.openAction = QAction(QIcon(":file-open.svg"),"&Open", self)
+        self.saveAction = QAction(QIcon(":file-save.svg"),"&Save", self)
         self.exitAction = QAction("&Exit", self)
-        self.copyAction = QAction("&Copy", self)
-        self.pasteAction = QAction("&Paste", self)
-        self.cutAction = QAction("C&ut", self)
+        self.copyAction = QAction(QIcon(":edit-copy.svg"),"&Copy", self)
+        self.pasteAction = QAction(QIcon(":edit-paste.svg"),"&Paste", self)
+        self.cutAction = QAction(QIcon(":edit-cut.svg"), "C&ut", self)
         self.helpContentAction = QAction("&Help Content", self)
         self.aboutAction = QAction("&About", self)
 
