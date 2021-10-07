@@ -4,6 +4,7 @@ import qrc_resources
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMenu, QToolBar, QAction, QSpinBox
+from functools import partial
 
 newIcon = QIcon(":file-new.svg")
 class Window(QMainWindow):
@@ -25,6 +26,7 @@ class Window(QMainWindow):
         menuBar.addMenu(fileMenu)
         fileMenu.addAction(self.newAction)
         fileMenu.addAction(self.openAction)
+        self.openRecentMenu = fileMenu.addMenu("Open Recent")
         fileMenu.addAction(self.saveAction)
         fileMenu.addSeparator()
         fileMenu.addAction(self.exitAction)
@@ -117,6 +119,21 @@ class Window(QMainWindow):
         self.cutAction.triggered.connect(self.cutContent)
         self.helpContentAction.triggered.connect(self.helpContent)
         self.aboutAction.triggered.connect(self.about)
+        self.openRecentMenu.aboutToShow.connect(self.populateOpenRecent)
+
+    def populateOpenRecent(self):
+        self.openRecentMenu.clear()
+        actions = []
+        filenames = [f"File-{n}" for n in range(5)]
+        for filename in filenames:
+            action = QAction(filename, self)
+            action.triggered.connect(partial(self.openRecentFile, filename))
+            actions.append(action)
+        self.openRecentMenu.addActions(actions)
+
+    def openRecentFile(self, filename):
+        self.centralWidget.setText(f"<b>{filename}</b> opened")
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
