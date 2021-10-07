@@ -6,12 +6,9 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMenu, QToolBar, QAction, QSpinBox
 
 newIcon = QIcon(":file-new.svg")
-separator = QAction()
-separator.setSeparator(True)
-
 class Window(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent=None)
         self.setWindowTitle("Python Menu")
         self.resize(400, 200)
         self.centralWidget = QLabel("Hello, World")
@@ -20,7 +17,7 @@ class Window(QMainWindow):
         self._createActions()
         self._createMenuBar()
         self._createToolBars()
-       # self._createContextMenu()
+        self._connectActions()
     
     def _createMenuBar(self):
         menuBar = self.menuBar()
@@ -85,15 +82,41 @@ class Window(QMainWindow):
         menu.addAction(self.pasteAction)
         menu.addAction(self.cutAction)
         menu.exec(event.globalPos())
+
+    def newFile(self):
+        self.centralWidget.setText("<b>File > New</b> clicked")
+
+    def openFile(self):
+        self.centralWidget.setText("<b>File > Open...</b> clicked")
+
+    def saveFile(self):
+        self.centralWidget.setText("<b>File > Save</b> clicked")
         
-"""    def _createContextMenu(self):
-        self.centralWidget.setContextMenuPolicy(Qt.ActionsContextMenu)
-        self.centralWidget.addAction(self.newAction)
-        self.centralWidget.addAction(self.openAction)
-        self.centralWidget.addAction(self.saveAction)
-        self.centralWidget.addAction(self.copyAction)
-        self.centralWidget.addAction(self.pasteAction)
-        self.centralWidget.addAction(self.cutAction)"""
+    def copyContent(self):
+        self.centralWidget.setText("<b>Edit > Copy</b> clicked")
+
+    def pasteContent(self):
+        self.centralWidget.setText("<b>Edit > Paste</b> clicked")
+
+    def cutContent(self):
+        self.centralWidget.setText("<b>Edit > Cut</b> clicked")
+
+    def helpContent(self):
+        self.centralWidget.setText("<b>Help > Help Content...</b> clicked")
+
+    def about(self):
+        self.centralWidget.setText("<b>Help > About...</b> clicked")
+
+    def _connectActions(self):
+        self.newAction.triggered.connect(self.newFile)
+        self.openAction.triggered.connect(self.openFile)
+        self.saveAction.triggered.connect(self.saveFile)
+        self.exitAction.triggered.connect(self.close)
+        self.copyAction.triggered.connect(self.copyContent)
+        self.pasteAction.triggered.connect(self.pasteContent)
+        self.cutAction.triggered.connect(self.cutContent)
+        self.helpContentAction.triggered.connect(self.helpContent)
+        self.aboutAction.triggered.connect(self.about)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
