@@ -1,7 +1,7 @@
 import sys
 import qrc_resources
 
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QMenu, QToolBar, QAction, QSpinBox
 from functools import partial
@@ -65,12 +65,18 @@ class Window(QMainWindow):
         self.newAction.setIcon(QIcon(":file-new.svg"))
         self.openAction = QAction(QIcon(":file-open.svg"),"&Open", self)
         self.saveAction = QAction(QIcon(":file-save.svg"),"&Save", self)
+        self.newAction.setShortcut("Ctrl+N")
+        self.openAction.setShortcut("Ctrl+O")
+        self.saveAction.setShortcut("Ctrl+S")
         self.exitAction = QAction("&Exit", self)
         self.copyAction = QAction(QIcon(":edit-copy.svg"),"&Copy", self)
         self.pasteAction = QAction(QIcon(":edit-paste.svg"),"&Paste", self)
         self.cutAction = QAction(QIcon(":edit-cut.svg"), "C&ut", self)
         self.helpContentAction = QAction("&Help Content", self)
         self.aboutAction = QAction("&About", self)
+        self.copyAction.setShortcut(QKeySequence.Copy)
+        self.pasteAction.setShortcut(QKeySequence.Paste)
+        self.cutAction.setShortcut(QKeySequence.Cut)
 
     def contextMenuEvent(self, event):
         menu = QMenu(self.centralWidget)
