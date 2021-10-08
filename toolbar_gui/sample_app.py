@@ -19,6 +19,7 @@ class Window(QMainWindow):
         self._createMenuBar()
         self._createToolBars()
         self._connectActions()
+        self._createStatusBar()
     
     def _createMenuBar(self):
         menuBar = self.menuBar()
@@ -53,8 +54,6 @@ class Window(QMainWindow):
         editToolbar.addAction(self.copyAction)
         editToolbar.addAction(self.pasteAction)
         editToolbar.addAction(self.cutAction)
-        helpToolbar = QToolBar("Help", self)
-        self.addToolBar(Qt.LeftToolBarArea, helpToolbar)
         self.fontSizeSpinBox = QSpinBox()
         self.fontSizeSpinBox.setFocusPolicy(Qt.NoFocus)
         editToolbar.addWidget(self.fontSizeSpinBox)
@@ -68,6 +67,9 @@ class Window(QMainWindow):
         self.newAction.setShortcut("Ctrl+N")
         self.openAction.setShortcut("Ctrl+O")
         self.saveAction.setShortcut("Ctrl+S")
+        newTip = "Create a new file"
+        self.newAction.setStatusTip(newTip)
+        self.newAction.setToolTip(newTip)
         self.exitAction = QAction("&Exit", self)
         self.copyAction = QAction(QIcon(":edit-copy.svg"),"&Copy", self)
         self.pasteAction = QAction(QIcon(":edit-paste.svg"),"&Paste", self)
@@ -140,6 +142,19 @@ class Window(QMainWindow):
     def openRecentFile(self, filename):
         self.centralWidget.setText(f"<b>{filename}</b> opened")
 
+    def _createStatusBar(self):
+        self.statusBar = self.statusBar()
+        self.statusBar.showMessage("Ready", 3000)
+        self.wcLabel = QLabel(f"{self.getWordCount()} Words")
+        self.statusBar.addPermanentWidget(self.wcLabel)
+        self.ccLabel = QLabel(f"{self.getCharCount()} Chars")
+        self.statusBar.addPermanentWidget(self.ccLabel)
+
+    def getWordCount(self):
+        return 42
+
+    def getCharCount(self):
+        return 4853
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
