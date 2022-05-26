@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\bug_tracker",
-    "\\dashboard",
-    "\\dashboard\\templates"
+    "\\dashboard"
   ],
-  "SelectedNode": "\\bug_tracker\\urls.py",
+  "SelectedNode": "\\dashboard\\models.py",
   "PreviewInSolutionExplorer": false
 }

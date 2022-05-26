@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Project(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     version = models.CharField(max_length=15, null=True)
     release_date = models.DateField(null=True)
 
 class Issue(models.Model):
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     status_choices = (
         ("0", "OPEN"),
         ("1", "IN PROGRESS"),
@@ -34,7 +34,7 @@ class Issue(models.Model):
     # percentage_completed  
 
 class Comments(models.Model):
-    issue = models.ForeignKey(Issue)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500)
     date_created = models.DateTimeField(null=False, auto_now_add=True) 
-    user = models.ForeignKey(User,null=True, blank=True)
+    user = models.ForeignKey(User,null=True, blank=True, on_delete=models.CASCADE)
