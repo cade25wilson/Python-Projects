@@ -9,13 +9,27 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtSql import QSqlDatabase
+
+class ConnectDB:
+        con = QSqlDatabase.addDatabase('QSQLITE')
+        con.setDatabaseName('WhatNot.sqlite')
+        con.open() 
+        if con.tables == 0:
+                con.exec("create table List1 (id integer primary key, Category varchar(100), Sub Category varchar(300), Title varchar(100), Quantity integer, Type varchar(20))")
+        print(con.databaseName())
+
 
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1106, 885)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        Form.setFont(font)
         self.comboBox = QtWidgets.QComboBox(Form)
+        self.comboBox.setEnabled(True)
         self.comboBox.setGeometry(QtCore.QRect(440, 40, 631, 51))
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
@@ -48,16 +62,19 @@ class Ui_Form(object):
         self.textEdit_2 = QtWidgets.QTextEdit(Form)
         self.textEdit_2.setGeometry(QtCore.QRect(440, 250, 631, 101))
         self.textEdit_2.setObjectName("textEdit_2")
-        self.lcdNumber = QtWidgets.QLCDNumber(Form)
-        self.lcdNumber.setGeometry(QtCore.QRect(960, 370, 111, 51))
-        self.lcdNumber.setObjectName("lcdNumber")
         self.comboBox_3 = QtWidgets.QComboBox(Form)
         self.comboBox_3.setGeometry(QtCore.QRect(660, 440, 411, 41))
         self.comboBox_3.setObjectName("comboBox_3")
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.textEdit_3 = QtWidgets.QTextEdit(Form)
+        self.textEdit_3.setEnabled(True)
         self.textEdit_3.setGeometry(QtCore.QRect(940, 500, 131, 41))
+        self.textEdit_3.setHtml("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p></body></html>")
         self.textEdit_3.setObjectName("textEdit_3")
         self.comboBox_4 = QtWidgets.QComboBox(Form)
         self.comboBox_4.setGeometry(QtCore.QRect(440, 560, 631, 41))
@@ -68,10 +85,13 @@ class Ui_Form(object):
         self.comboBox_4.addItem("")
         self.comboBox_4.addItem("")
         self.radioButton = QtWidgets.QRadioButton(Form)
-        self.radioButton.setGeometry(QtCore.QRect(140, 40, 211, 31))
+        self.radioButton.setGeometry(QtCore.QRect(140, 40, 261, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.radioButton.setFont(font)
         self.radioButton.setObjectName("radioButton")
         self.textEdit_4 = QtWidgets.QTextEdit(Form)
-        self.textEdit_4.setGeometry(QtCore.QRect(130, 120, 271, 51))
+        self.textEdit_4.setGeometry(QtCore.QRect(130, 110, 271, 51))
         self.textEdit_4.setObjectName("textEdit_4")
         self.textEdit_5 = QtWidgets.QTextEdit(Form)
         self.textEdit_5.setGeometry(QtCore.QRect(130, 180, 271, 51))
@@ -91,6 +111,21 @@ class Ui_Form(object):
         self.textEdit_10 = QtWidgets.QTextEdit(Form)
         self.textEdit_10.setGeometry(QtCore.QRect(130, 560, 271, 51))
         self.textEdit_10.setObjectName("textEdit_10")
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setGeometry(QtCore.QRect(130, 650, 241, 81))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_3 = QtWidgets.QPushButton(Form)
+        self.pushButton_3.setGeometry(QtCore.QRect(830, 650, 241, 81))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_4 = QtWidgets.QPushButton(Form)
+        self.pushButton_4.setGeometry(QtCore.QRect(470, 650, 241, 81))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.textEdit_11 = QtWidgets.QTextEdit(Form)
+        self.textEdit_11.setGeometry(QtCore.QRect(950, 370, 121, 51))
+        self.textEdit_11.setObjectName("textEdit_11")
+        self.textEdit_12 = QtWidgets.QTextEdit(Form)
+        self.textEdit_12.setGeometry(QtCore.QRect(910, 500, 31, 41))
+        self.textEdit_12.setObjectName("textEdit_12")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -119,6 +154,16 @@ class Ui_Form(object):
         self.comboBox_2.setItemText(11, _translate("Form", "Jewelry"))
         self.comboBox_2.setItemText(12, _translate("Form", "Other Accessories"))
         self.comboBox_2.setItemText(13, _translate("Form", "Vintage Decor"))
+        self.textEdit.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.textEdit_2.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.comboBox_3.setItemText(0, _translate("Form", "Auction"))
         self.comboBox_3.setItemText(1, _translate("Form", "Buy it Now"))
         self.comboBox_4.setItemText(0, _translate("Form", "4-7 oz (Comic, Fat Pack, T-Shirt)"))
@@ -130,38 +175,51 @@ class Ui_Form(object):
         self.textEdit_4.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">Sub </span><span style=\" font-size:18pt; font-weight:600;\">Category</span></p></body></html>"))
         self.textEdit_5.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Title</span></p></body></html>"))
         self.textEdit_6.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Description</span></p></body></html>"))
         self.textEdit_7.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Quantity</span></p></body></html>"))
         self.textEdit_8.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Type</span></p></body></html>"))
         self.textEdit_9.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Price (If BIN)</span></p></body></html>"))
         self.textEdit_10.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Shipping Profile</span></p></body></html>"))
+        self.pushButton_2.setText(_translate("Form", "View List"))
+        self.pushButton_3.setText(_translate("Form", "Save To list"))
+        self.pushButton_4.setText(_translate("Form", "New List"))
+        self.textEdit_11.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.textEdit_12.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">$</p></body></html>"))
 
 
 if __name__ == "__main__":
