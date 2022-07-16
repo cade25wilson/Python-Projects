@@ -9,16 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtSql import QSqlDatabase
-
-class ConnectDB:
-        con = QSqlDatabase.addDatabase('QSQLITE')
-        con.setDatabaseName('WhatNot.sqlite')
-        con.open() 
-        if con.tables == 0:
-                con.exec("create table List1 (id integer primary key, Category varchar(100), Sub Category varchar(300), Title varchar(100), Quantity integer, Type varchar(20))")
-        print(con.databaseName())
-
 
 
 class Ui_Form(object):
@@ -70,11 +60,16 @@ class Ui_Form(object):
         self.textEdit_3 = QtWidgets.QTextEdit(Form)
         self.textEdit_3.setEnabled(True)
         self.textEdit_3.setGeometry(QtCore.QRect(940, 500, 131, 41))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.textEdit_3.setFont(font)
         self.textEdit_3.setHtml("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt;\"><br /></p></body></html>")
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:600; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7.8pt; font-weight:400;\"><br /></p></body></html>")
         self.textEdit_3.setObjectName("textEdit_3")
         self.comboBox_4 = QtWidgets.QComboBox(Form)
         self.comboBox_4.setGeometry(QtCore.QRect(440, 560, 631, 41))
@@ -84,33 +79,6 @@ class Ui_Form(object):
         self.comboBox_4.addItem("")
         self.comboBox_4.addItem("")
         self.comboBox_4.addItem("")
-        self.radioButton = QtWidgets.QRadioButton(Form)
-        self.radioButton.setGeometry(QtCore.QRect(140, 40, 261, 31))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.radioButton.setFont(font)
-        self.radioButton.setObjectName("radioButton")
-        self.textEdit_4 = QtWidgets.QTextEdit(Form)
-        self.textEdit_4.setGeometry(QtCore.QRect(130, 110, 271, 51))
-        self.textEdit_4.setObjectName("textEdit_4")
-        self.textEdit_5 = QtWidgets.QTextEdit(Form)
-        self.textEdit_5.setGeometry(QtCore.QRect(130, 180, 271, 51))
-        self.textEdit_5.setObjectName("textEdit_5")
-        self.textEdit_6 = QtWidgets.QTextEdit(Form)
-        self.textEdit_6.setGeometry(QtCore.QRect(130, 250, 271, 51))
-        self.textEdit_6.setObjectName("textEdit_6")
-        self.textEdit_7 = QtWidgets.QTextEdit(Form)
-        self.textEdit_7.setGeometry(QtCore.QRect(130, 370, 271, 51))
-        self.textEdit_7.setObjectName("textEdit_7")
-        self.textEdit_8 = QtWidgets.QTextEdit(Form)
-        self.textEdit_8.setGeometry(QtCore.QRect(130, 440, 271, 51))
-        self.textEdit_8.setObjectName("textEdit_8")
-        self.textEdit_9 = QtWidgets.QTextEdit(Form)
-        self.textEdit_9.setGeometry(QtCore.QRect(130, 500, 271, 51))
-        self.textEdit_9.setObjectName("textEdit_9")
-        self.textEdit_10 = QtWidgets.QTextEdit(Form)
-        self.textEdit_10.setGeometry(QtCore.QRect(130, 560, 271, 51))
-        self.textEdit_10.setObjectName("textEdit_10")
         self.pushButton_2 = QtWidgets.QPushButton(Form)
         self.pushButton_2.setGeometry(QtCore.QRect(130, 650, 241, 81))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -120,12 +88,121 @@ class Ui_Form(object):
         self.pushButton_4 = QtWidgets.QPushButton(Form)
         self.pushButton_4.setGeometry(QtCore.QRect(470, 650, 241, 81))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.textEdit_11 = QtWidgets.QTextEdit(Form)
-        self.textEdit_11.setGeometry(QtCore.QRect(950, 370, 121, 51))
-        self.textEdit_11.setObjectName("textEdit_11")
         self.textEdit_12 = QtWidgets.QTextEdit(Form)
         self.textEdit_12.setGeometry(QtCore.QRect(910, 500, 31, 41))
         self.textEdit_12.setObjectName("textEdit_12")
+        self.NewList = QtWidgets.QDockWidget(Form)
+        self.NewList.setEnabled(True)
+        self.NewList.setGeometry(QtCore.QRect(270, 270, 461, 241))
+        self.NewList.setObjectName("NewList")
+        self.dockWidgetContents = QtWidgets.QWidget()
+        self.dockWidgetContents.setObjectName("dockWidgetContents")
+        self.textEdit_13 = QtWidgets.QTextEdit(self.dockWidgetContents)
+        self.textEdit_13.setGeometry(QtCore.QRect(210, 70, 231, 41))
+        self.textEdit_13.setObjectName("textEdit_13")
+        self.label = QtWidgets.QLabel(self.dockWidgetContents)
+        self.label.setGeometry(QtCore.QRect(20, 70, 171, 41))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.pushButton = QtWidgets.QPushButton(self.dockWidgetContents)
+        self.pushButton.setEnabled(True)
+        self.pushButton.setGeometry(QtCore.QRect(260, 140, 181, 51))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton.setFont(font)
+        self.pushButton.setObjectName("pushButton")
+        self.label_2 = QtWidgets.QLabel(self.dockWidgetContents)
+        self.label_2.setGeometry(QtCore.QRect(36, 12, 391, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.NewList.setWidget(self.dockWidgetContents)
+        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(130, 110, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_3.setFont(font)
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(Form)
+        self.label_4.setGeometry(QtCore.QRect(130, 170, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.label_5 = QtWidgets.QLabel(Form)
+        self.label_5.setGeometry(QtCore.QRect(130, 250, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_5.setFont(font)
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_5.setObjectName("label_5")
+        self.label_6 = QtWidgets.QLabel(Form)
+        self.label_6.setGeometry(QtCore.QRect(130, 370, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_6.setFont(font)
+        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_6.setObjectName("label_6")
+        self.label_7 = QtWidgets.QLabel(Form)
+        self.label_7.setGeometry(QtCore.QRect(140, 550, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_7.setFont(font)
+        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_7.setObjectName("label_7")
+        self.label_8 = QtWidgets.QLabel(Form)
+        self.label_8.setGeometry(QtCore.QRect(130, 420, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_8.setFont(font)
+        self.label_8.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_8.setObjectName("label_8")
+        self.label_9 = QtWidgets.QLabel(Form)
+        self.label_9.setGeometry(QtCore.QRect(140, 490, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_9.setFont(font)
+        self.label_9.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_9.setObjectName("label_9")
+        self.spinBox = QtWidgets.QSpinBox(Form)
+        self.spinBox.setGeometry(QtCore.QRect(950, 370, 121, 51))
+        self.spinBox.setObjectName("spinBox")
+        self.label_10 = QtWidgets.QLabel(Form)
+        self.label_10.setGeometry(QtCore.QRect(130, 40, 271, 51))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_10.setFont(font)
+        self.label_10.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_10.setObjectName("label_10")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -171,55 +248,25 @@ class Ui_Form(object):
         self.comboBox_4.setItemText(2, _translate("Form", "1lb (2/3 Pack Funko Pop)"))
         self.comboBox_4.setItemText(3, _translate("Form", "12-15 oz"))
         self.comboBox_4.setItemText(4, _translate("Form", "1-2 lbs (e.g., BearBrick, Hoodie)"))
-        self.radioButton.setText(_translate("Form", "This is not a thrift clothing item"))
-        self.textEdit_4.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">Sub </span><span style=\" font-size:18pt; font-weight:600;\">Category</span></p></body></html>"))
-        self.textEdit_5.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Title</span></p></body></html>"))
-        self.textEdit_6.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Description</span></p></body></html>"))
-        self.textEdit_7.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Quantity</span></p></body></html>"))
-        self.textEdit_8.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Type</span></p></body></html>"))
-        self.textEdit_9.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Price (If BIN)</span></p></body></html>"))
-        self.textEdit_10.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Shipping Profile</span></p></body></html>"))
         self.pushButton_2.setText(_translate("Form", "View List"))
         self.pushButton_3.setText(_translate("Form", "Save To list"))
         self.pushButton_4.setText(_translate("Form", "New List"))
-        self.textEdit_11.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.textEdit_12.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">$</p></body></html>"))
+        self.label.setText(_translate("Form", "Table Name"))
+        self.pushButton.setText(_translate("Form", "Create Table"))
+        self.label_2.setText(_translate("Form", "Create New List"))
+        self.label_3.setText(_translate("Form", "Sub Category"))
+        self.label_4.setText(_translate("Form", "Title"))
+        self.label_5.setText(_translate("Form", "Description"))
+        self.label_6.setText(_translate("Form", "Quantity"))
+        self.label_7.setText(_translate("Form", "Shipping Profile"))
+        self.label_8.setText(_translate("Form", "Type"))
+        self.label_9.setText(_translate("Form", "Price (If BIN)"))
+        self.label_10.setText(_translate("Form", "Category"))
 
 
 if __name__ == "__main__":
