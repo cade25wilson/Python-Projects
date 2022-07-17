@@ -1,3 +1,4 @@
+from ctypes import create_string_buffer
 import sys
 from tkinter import W
 from PyQt5.QtCore import Qt
@@ -17,6 +18,9 @@ from PyQt5.QtWidgets import (
     QLayout,
     QWidget,
 )
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery
+
+from database import createConnection
 
 class MainWindow(QMainWindow):
     def createWindow(self):
@@ -200,7 +204,6 @@ class MainWindow(QMainWindow):
         viewbutton.setObjectName("viewbutton")
         viewbutton.setText("View List")
         viewbutton.setFont(font)
-        viewbutton.clicked.connect(self.openNewList)
 
         #newbutton
         newbutton = QtWidgets.QPushButton(window)
@@ -209,6 +212,7 @@ class MainWindow(QMainWindow):
         newbutton.setObjectName("newbtton")
         newbutton.setText("New List")
         newbutton.setFont(font)
+        newbutton.clicked.connect(self.openNewList)
 
         #savebutton
         savebutton = QtWidgets.QPushButton(window)
@@ -282,12 +286,35 @@ class CreateList(QMainWindow):
 
     def addItem(self):
         list = self.nametextbox.toPlainText()
-        print(list)
+        createTableQuery = QSqlQuery()
+        tables = createTableQuery.exec('SELECT name from contacts.sqlite where type = "table"')
+        last = createTableQuery.lastQuery()
+        # print the table names
+        while createTableQuery.next():
+            print(createTableQuery.value(0))
+        print(last)
+        print
 
+        createTableQuery.exec("CREATE TABLE IF NOT EXISTS " + list +
+         """
+         (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            NAME TEXT,
+            DESCRIPTION TEXT, 
+            PRICE TEXT, 
+            QUANTITY INTEGER)
+         """
+         ) 
+
+                 
+
+        
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    if not createConnection():
+        sys.exit(1)
     window = MainWindow()
     window.createWindow()
 
