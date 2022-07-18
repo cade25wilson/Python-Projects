@@ -1,5 +1,6 @@
 from ctypes import create_string_buffer
 import sys
+import time
 from tkinter import W
 from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -284,31 +285,44 @@ class CreateList(QMainWindow):
         self.namelabel.setGeometry(QtCore.QRect(20, 20, 150, 51))
         self.namelabel.setFont(font)
 
+        #errorlabel
+        self.errorlabel = QtWidgets.QLabel(window)
+        self.errorlabel.setText('Error: List name already exists')
+        self.errorlabel.setObjectName('errorlabel')
+        self.errorlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.errorlabel.setGeometry(QtCore.QRect(10, 155, 525, 51))
+        self.setFont(font)
+        self.errorlabel.setVisible(False)
+
+        #successlabel
+        self.successlabel = QtWidgets.QLabel(window)
+        self.successlabel.setText('Success: List created')
+        self.successlabel.setObjectName('successlabel')
+        self.successlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.successlabel.setGeometry(QtCore.QRect(10, 155, 525, 51))
+        self.setFont(font)
+        self.successlabel.setVisible(False)
+
+
     def addItem(self):
         list = self.nametextbox.toPlainText()
         createTableQuery = QSqlQuery()
-        tables = createTableQuery.exec('SELECT name from contacts.sqlite where type = "table"')
-        last = createTableQuery.lastQuery()
-        # print the table names
+        tables = createTableQuery.exec('SELECT name from sqlite_master where type="table"')
+        createTableQuery.record()
+        print(createTableQuery.record().value(0))
         while createTableQuery.next():
             print(createTableQuery.value(0))
-        print(last)
-        print
-
-        createTableQuery.exec("CREATE TABLE IF NOT EXISTS " + list +
-         """
-         (
-            ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            NAME TEXT,
-            DESCRIPTION TEXT, 
-            PRICE TEXT, 
-            QUANTITY INTEGER)
-         """
-         ) 
-
-                 
-
-        
+            if list == createTableQuery.value(0):
+                print("List already exists")
+                self.errorlabel.setVisible(True)
+                CreateList.resize(self, 550, 225)
+                self.nametextbox.clear()
+                return
+        createTableQuery.exec('CREATE TABLE ' + list + ' (name TEXT, description TEXT, quantity INTEGER, price REAL)')
+        self.successlabel.setVisible(True)
+        CreateList.resize(self, 550, 225)
+        time.sleep(1)
+        self.close()
 
 if __name__ == "__main__":
     import sys
