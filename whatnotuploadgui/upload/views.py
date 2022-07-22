@@ -273,7 +273,7 @@ class MainWindow(QMainWindow):
         if list and category and subcategory and title and desc and price and quantity and type and ship:
             conn = sqlite3.connect('contacts.sqlite')
             cur = conn.cursor()
-            cur.execute("INSERT INTO " + list +  " VALUES (?,?,?,?,?,?,?,?)", (category, subcategory, title, desc, price, quantity, type, ship))
+            cur.execute("INSERT INTO " + list +  " VALUES (?,?,?,?,?,?,?,?)", (category, subcategory, title, desc, quantity, type, price, ship))
             conn.commit()
             self.titedit.clear()
             self.descedit.clear()
