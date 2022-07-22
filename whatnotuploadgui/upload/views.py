@@ -2,6 +2,7 @@ from ctypes import create_string_buffer
 import sys
 import time
 from tkinter import W
+from unicodedata import category
 from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import (
@@ -37,69 +38,77 @@ class MainWindow(QMainWindow):
 
         #LABELS
 
+        #ListLabel
+        self.listlabel = QtWidgets.QLabel(window)
+        self.listlabel.setText('Select List:')
+        self.listlabel.setObjectName('listlabel')
+        self.listlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.listlabel.setGeometry(QtCore.QRect(130, 30, 271, 51))
+        self.listlabel.setFont(font)
+
         #categorylabel
-        catlabel = QtWidgets.QLabel(window)
-        catlabel.setText('Category')
-        catlabel.setObjectName('catlabel')
-        catlabel.setAlignment(QtCore.Qt.AlignCenter)
-        catlabel.setGeometry(QtCore.QRect(130, 40, 271, 51))
-        catlabel.setFont(font)
+        self.catlabel = QtWidgets.QLabel(window)
+        self.catlabel.setText('Category')
+        self.catlabel.setObjectName('catlabel')
+        self.catlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.catlabel.setGeometry(QtCore.QRect(130, 100, 271, 51))
+        self.catlabel.setFont(font)
  
         #subcategorylabel left, top, width, height
-        sublabel = QtWidgets.QLabel(window)
-        sublabel.setText('Sub category')
-        sublabel.setObjectName('sublabel')
-        sublabel.setAlignment(QtCore.Qt.AlignCenter)
-        sublabel.setGeometry(QtCore.QRect(130, 110, 271, 51))
-        sublabel.setFont(font)
+        self.sublabel = QtWidgets.QLabel(window)
+        self.sublabel.setText('Sub category')
+        self.sublabel.setObjectName('sublabel')
+        self.sublabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.sublabel.setGeometry(QtCore.QRect(130, 170, 271, 51))
+        self.sublabel.setFont(font)
 
         #titlelabel
-        titlabel = QtWidgets.QLabel(window)
-        titlabel.setText('Title')
-        titlabel.setObjectName('titlabel')
-        titlabel.setAlignment(QtCore.Qt.AlignCenter)
-        titlabel.setGeometry(QtCore.QRect(130, 170, 271, 51))
-        titlabel.setFont(font)
+        self.titlabel = QtWidgets.QLabel(window)
+        self.titlabel.setText('Title')
+        self.titlabel.setObjectName('titlabel')
+        self.titlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.titlabel.setGeometry(QtCore.QRect(130, 230, 271, 51))
+        self.titlabel.setFont(font)
 
         #descriptionlabel
-        deslabel = QtWidgets.QLabel(window)
-        deslabel.setText('Description')
-        deslabel.setObjectName('deslabel')
-        deslabel.setAlignment(QtCore.Qt.AlignCenter)
-        deslabel.setGeometry(QtCore.QRect(130, 250, 271, 51))
-        deslabel.setFont(font)
+        self.deslabel = QtWidgets.QLabel(window)
+        self.deslabel.setText('Description')
+        self.deslabel.setObjectName('deslabel')
+        self.deslabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.deslabel.setGeometry(QtCore.QRect(130, 310, 271, 51))
+        self.deslabel.setFont(font)
 
         #quantitylabel
-        quanlabel = QtWidgets.QLabel(window)
-        quanlabel.setText('Quantity')
-        quanlabel.setObjectName("quanlabel")
-        quanlabel.setAlignment(QtCore.Qt.AlignCenter)
-        quanlabel.setGeometry(QtCore.QRect(130, 370, 271, 51))
-        quanlabel.setFont(font)
+        self.quanlabel = QtWidgets.QLabel(window)
+        self.quanlabel.setText('Quantity')
+        self.quanlabel.setObjectName("quanlabel")
+        self.quanlabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.quanlabel.setGeometry(QtCore.QRect(130, 450, 271, 51))
+        self.quanlabel.setFont(font)
 
         #typelabel
-        typelabel = QtWidgets.QLabel(window)
-        typelabel.setText('Type')
-        typelabel.setObjectName("typelabel")
-        typelabel.setAlignment(QtCore.Qt.AlignCenter)
-        typelabel.setGeometry(QtCore.QRect(130, 420, 271, 51))
-        typelabel.setFont(font)
+        self.typelabel = QtWidgets.QLabel(window)
+        self.typelabel.setText('Type')
+        self.typelabel.setObjectName("typelabel")
+        self.typelabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.typelabel.setGeometry(QtCore.QRect(130, 480, 271, 51))
+        self.typelabel.setFont(font)
 
         #pricelabel
-        prilabel = QtWidgets.QLabel(window)
-        prilabel.setText('Price (If BIN)')
-        prilabel.setObjectName("prilabel")
-        prilabel.setAlignment(QtCore.Qt.AlignCenter)
-        prilabel.setGeometry(QtCore.QRect(140, 490, 271, 51))
-        prilabel.setFont(font)
+        self.prilabel = QtWidgets.QLabel(window)
+        self.prilabel.setText('Price (If BIN)')
+        self.prilabel.setObjectName("prilabel")
+        self.prilabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.prilabel.setGeometry(QtCore.QRect(140, 550, 271, 51))
+        self.prilabel.setFont(font)
 
         #shiplabel
-        shiplabel = QtWidgets.QLabel(window)
-        shiplabel.setText('Shipping Profile')
-        shiplabel.setObjectName("shiplabel")
-        shiplabel.setAlignment(QtCore.Qt.AlignCenter)
-        shiplabel.setGeometry(QtCore.QRect(140, 550, 271, 51))
-        shiplabel.setFont(font)
+        self.shiplabel = QtWidgets.QLabel(window)
+        self.shiplabel.setText('Shipping Profile')
+        self.shiplabel.setObjectName("shiplabel")
+        self.shiplabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.shiplabel.setGeometry(QtCore.QRect(140, 610, 271, 51))
+        self.shiplabel.setFont(font)
 
         #COMBOBOXES
 
@@ -107,121 +116,134 @@ class MainWindow(QMainWindow):
         font.setBold(False)
         font.setFamilies(['MS Shell Dlg 2'])
 
+        #listcombobox
+        self.listcombobox = QtWidgets.QComboBox(window)
+        self.listcombobox.setEnabled(True)
+        self.listcombobox.setGeometry(QtCore.QRect(440, 30, 631, 51))
+        self.listcombobox.setObjectName("listcombobox")
+        createTableQuery = QSqlQuery()
+        createTableQuery.exec('SELECT name from sqlite_master where type="table"')
+        while createTableQuery.next():
+            self.listcombobox.addItem(createTableQuery.value(0))
+        self.listcombobox.setFont(font)
+
         #categorycombobox
-        catcombobox = QtWidgets.QComboBox(window)
-        catcombobox.setEnabled(True)
-        catcombobox.setGeometry(QtCore.QRect(440, 40, 631, 51))
-        catcombobox.setObjectName("catcombobox")
-        catcombobox.addItem("Vintage & Thrift Clothing")
-        catcombobox.addItem("Sneakers & Streetwear")
-        catcombobox.addItem("Bags, Jewelry & Accessories")
-        catcombobox.addItem("Watches")
-        catcombobox.addItem("Toys")
-        catcombobox.addItem("Electronics")
-        catcombobox.addItem("Arts & Crafts")
-        catcombobox.setFont(font)
+        self.catcombobox = QtWidgets.QComboBox(window)
+        self.catcombobox.setEnabled(True)
+        self.catcombobox.setGeometry(QtCore.QRect(440, 100, 631, 51))
+        self.catcombobox.setObjectName("catcombobox")
+        self.catcombobox.addItem("Vintage & Thrift Clothing")
+        self.catcombobox.addItem("Sneakers & Streetwear")
+        self.catcombobox.addItem("Bags, Jewelry & Accessories")
+        self.catcombobox.addItem("Watches")
+        self.catcombobox.addItem("Toys")
+        self.catcombobox.addItem("Electronics")
+        self.catcombobox.addItem("Arts & Crafts")
+        self.catcombobox.setFont(font)
 
         #subcategorycombobox
-        subcombobox = QtWidgets.QComboBox(window)
-        subcombobox.setGeometry(QtCore.QRect(440, 110, 631, 51))
-        subcombobox.setObjectName("subcombobox")
-        subcombobox.addItem("Crafts")
-        subcombobox.addItem("Streetwear")
-        subcombobox.addItem("Sneakers")
-        subcombobox.addItem("Vintage Clothing")
-        subcombobox.addItem("Women\'s Modern & Thrift")
-        subcombobox.addItem("Men\'s Modern & Thrift")
-        subcombobox.addItem("Kids\' Clothing")
-        subcombobox.addItem("Other Fashion")
-        subcombobox.addItem("Luxury Bags & Accessories")
-        subcombobox.addItem("Fashion & Thrift Bags")
-        subcombobox.addItem("Watches")
-        subcombobox.addItem("Jewelry")
-        subcombobox.addItem("Other Accessories")
-        subcombobox.addItem("Vintage Decor")
-        subcombobox.setFont(font)
+        self.subcombobox = QtWidgets.QComboBox(window)
+        self.subcombobox.setGeometry(QtCore.QRect(440, 170, 631, 51))
+        self.subcombobox.setObjectName("subcombobox")
+        self.subcombobox.addItem("Crafts")
+        self.subcombobox.addItem("Streetwear")
+        self.subcombobox.addItem("Sneakers")
+        self.subcombobox.addItem("Vintage Clothing")
+        self.subcombobox.addItem("Women\'s Modern & Thrift")
+        self.subcombobox.addItem("Men\'s Modern & Thrift")
+        self.subcombobox.addItem("Kids\' Clothing")
+        self.subcombobox.addItem("Other Fashion")
+        self.subcombobox.addItem("Luxury Bags & Accessories")
+        self.subcombobox.addItem("Fashion & Thrift Bags")
+        self.subcombobox.addItem("Watches")
+        self.subcombobox.addItem("Jewelry")
+        self.subcombobox.addItem("Other Accessories")
+        self.subcombobox.addItem("Vintage Decor")
+        self.subcombobox.setFont(font)
 
         #typecombobox
-        titlecombobox = QtWidgets.QComboBox(window)
-        titlecombobox.setGeometry(QtCore.QRect(660, 440, 411, 41))
-        titlecombobox.setObjectName("titlecombobox")
-        titlecombobox.addItem("Auction")
-        titlecombobox.addItem("Buy it Now")
-        titlecombobox.setFont(font)
+        self.titlecombobox = QtWidgets.QComboBox(window)
+        self.titlecombobox.setGeometry(QtCore.QRect(660, 500, 411, 41))
+        self.titlecombobox.setObjectName("titlecombobox")
+        self.titlecombobox.addItem("Auction")
+        self.titlecombobox.addItem("Buy it Now")
+        self.titlecombobox.setFont(font)
 
         #shipcombobox
-        shipcombobox = QtWidgets.QComboBox(window)
-        shipcombobox.setGeometry(QtCore.QRect(440, 560, 631, 41))
-        shipcombobox.setObjectName("shipcombobox")
-        shipcombobox.addItem("4-7 oz (Comic, Fat Pack, T-Shirt)")
-        shipcombobox.addItem("8-11 oz (Funko Pop)")
-        shipcombobox.addItem("12-15 oz")
-        shipcombobox.addItem("1lb (2/3 Pack Funko Pop)")
-        shipcombobox.addItem("1-2 lbs (e.g., BearBrick, Hoodie)")
-        shipcombobox.setFont(font)
+        self.shipcombobox = QtWidgets.QComboBox(window)
+        self.shipcombobox.setGeometry(QtCore.QRect(440, 620, 631, 41))
+        self.shipcombobox.setObjectName("shipcombobox")
+        self.shipcombobox.addItem("4-7 oz (Comic, Fat Pack, T-Shirt)")
+        self.shipcombobox.addItem("8-11 oz (Funko Pop)")
+        self.shipcombobox.addItem("12-15 oz")
+        self.shipcombobox.addItem("1lb (2/3 Pack Funko Pop)")
+        self.shipcombobox.addItem("1-2 lbs (e.g., BearBrick, Hoodie)")
+        self.shipcombobox.setFont(font)
 
         #TEXTBOXES
 
         #tittextbox
-        titedit = QtWidgets.QTextEdit(window)
-        titedit.setGeometry(QtCore.QRect(440, 180, 631, 51))
-        titedit.setObjectName("titedit")
+        self.titedit = QtWidgets.QTextEdit(window)
+        self.titedit.setGeometry(QtCore.QRect(440, 240, 631, 51))
+        self.titedit.setObjectName("titedit")
 
         #desctextbox
-        descedit = QtWidgets.QTextEdit(window)
-        descedit.setGeometry(QtCore.QRect(440, 250, 631, 101))
-        descedit.setObjectName("descedit")
+        self.descedit = QtWidgets.QTextEdit(window)
+        self.descedit.setGeometry(QtCore.QRect(440, 310, 631, 101))
+        self.descedit.setObjectName("descedit")
 
 
         #pritextbox
-        priedit = QtWidgets.QTextEdit(window)
-        priedit.setEnabled(True)
-        priedit.setGeometry(QtCore.QRect(940, 500, 131, 41))
-        priedit.setObjectName("priedit")
-        priedit.setFont(font)
+        self.priedit = QtWidgets.QTextEdit(window)
+        self.priedit.setEnabled(True)
+        self.priedit.setGeometry(QtCore.QRect(940, 560, 131, 41))
+        self.priedit.setObjectName("priedit")
+        self.priedit.setFont(font)
 
         #dollartextbox
         font.setWeight(400)
         font.setBold(False)
-        dollaredit = QtWidgets.QTextEdit(window)
-        dollaredit.setGeometry(QtCore.QRect(910, 500, 31, 41))
-        dollaredit.setObjectName("dollaredit")
-        dollaredit.setText("$")
-        dollaredit.setFont(font)
+        self.dollaredit = QtWidgets.QTextEdit(window)
+        self.dollaredit.setGeometry(QtCore.QRect(910, 560, 31, 41))
+        self.dollaredit.setObjectName("dollaredit")
+        self.dollaredit.setText("$")
+        self.dollaredit.setFont(font)
 
         #SPINBOXES
 
         #quantityspinbox
-        quanspinbox = QtWidgets.QSpinBox(window)
-        quanspinbox.setGeometry(QtCore.QRect(950, 370, 121, 51))
-        quanspinbox.setObjectName("quanspinbox")
+        self.quanspinbox = QtWidgets.QSpinBox(window)
+        self.quanspinbox.setGeometry(QtCore.QRect(950, 430, 121, 51))
+        self.quanspinbox.setObjectName("quanspinbox")
 
         #BUTTONS
 
         #viewbutton
-        viewbutton = QtWidgets.QPushButton(window)
-        viewbutton.setEnabled(True)
-        viewbutton.setGeometry(QtCore.QRect(130, 650, 241, 81))
-        viewbutton.setObjectName("viewbutton")
-        viewbutton.setText("View List")
-        viewbutton.setFont(font)
+        self.viewbutton = QtWidgets.QPushButton(window)
+        self.viewbutton.setEnabled(True)
+        self.viewbutton.setGeometry(QtCore.QRect(130, 710, 241, 81))
+        self.viewbutton.setObjectName("viewbutton")
+        self.viewbutton.setText("Choose List")
+        self.viewbutton.setFont(font)
+        self.viewbutton.clicked.connect(self.chooseList)
 
         #newbutton
-        newbutton = QtWidgets.QPushButton(window)
-        newbutton.setEnabled(True)
-        newbutton.setGeometry(QtCore.QRect(470, 650, 241, 81))
-        newbutton.setObjectName("newbtton")
-        newbutton.setText("New List")
-        newbutton.setFont(font)
-        newbutton.clicked.connect(self.openNewList)
+        self.newbutton = QtWidgets.QPushButton(window)
+        self.newbutton.setEnabled(True)
+        self.newbutton.setGeometry(QtCore.QRect(470, 710, 241, 81))
+        self.newbutton.setObjectName("newbtton")
+        self.newbutton.setText("New List")
+        self.newbutton.setFont(font)
+        self.newbutton.clicked.connect(self.openNewList)
 
         #savebutton
-        savebutton = QtWidgets.QPushButton(window)
-        savebutton.setEnabled(True)
-        savebutton.setGeometry(QtCore.QRect(830, 650, 241, 81))
-        savebutton.setObjectName("savebutton")
-        savebutton.setText("Save List")
-        savebutton.setFont(font)
+        self.savebutton = QtWidgets.QPushButton(window)
+        self.savebutton.setEnabled(True)
+        self.savebutton.setGeometry(QtCore.QRect(830, 710, 241, 81))
+        self.savebutton.setObjectName("savebutton")
+        self.savebutton.setText("Save To List")
+        self.savebutton.setFont(font)
+        self.savebutton.clicked.connect(self.saveToList)
 
         window.show()
         sys.exit(app.exec_())
@@ -229,6 +251,39 @@ class MainWindow(QMainWindow):
     def openNewList(self):
         newlist = CreateList(self)
         newlist.show()
+
+    def chooseList(self):
+        chooselist = Lists(self)
+        chooselist.show()
+
+    def saveToList(self):
+        list = self.listcombobox.currentText()
+        category = self.catcombobox.currentText()
+        subcategory = self.subcombobox.currentText()
+        title = self.titedit.toPlainText()
+        desc = self.descedit.toPlainText()
+        price = self.priedit.toPlainText()
+        quantity = self.quanspinbox.value()
+        type = self.titlecombobox.currentText()
+        ship = self.shipcombobox.currentText()
+
+        
+
+class Lists(QMainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUI()
+
+    def setupUI(self):
+        window = self
+        window.setWindowTitle("Create List")
+        window.resize(550, 150)
+
+        #BUTTONS
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setFamilies(['MS Shell Dlg 2'])
 
 class CreateList(QMainWindow):
     def __init__(self, parent=None):
@@ -314,14 +369,26 @@ class CreateList(QMainWindow):
             print(createTableQuery.value(0))
             if list == createTableQuery.value(0):
                 print("List already exists")
-                self.errorlabel.setVisible(True)
-                CreateList.resize(self, 550, 225)
+                # self.errorlabel.setVisible(True)
+                # CreateList.resize(self, 550, 225)
                 self.nametextbox.clear()
                 return
-        createTableQuery.exec('CREATE TABLE ' + list + ' (name TEXT, description TEXT, quantity INTEGER, price REAL)')
-        self.successlabel.setVisible(True)
-        CreateList.resize(self, 550, 225)
-        time.sleep(1)
+        createTableQuery.exec('CREATE TABLE ' + list +
+        """(
+            "Category"	TEXT,
+            "Sub Category"	TEXT,
+            "Title"	TEXT,
+            "Description"	TEXT,
+            "Quantity"	TEXT,
+            "Type"	TEXT,
+            "Price (If BIN)"	TEXT,
+            "Shipping Profile"	TEXT
+        )"""
+        )
+        print("List created")
+        # self.successlabel.setVisible(True)
+        # CreateList.resize(self, 550, 225)
+        
         self.close()
 
 if __name__ == "__main__":
