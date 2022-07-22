@@ -122,6 +122,7 @@ class MainWindow(QMainWindow):
         self.listcombobox.setEnabled(True)
         self.listcombobox.setGeometry(QtCore.QRect(440, 30, 631, 51))
         self.listcombobox.setObjectName("listcombobox")
+
         createTableQuery = QSqlQuery()
         createTableQuery.exec('SELECT name from sqlite_master where type="table"')
         while createTableQuery.next():
@@ -301,7 +302,7 @@ class Lists(QMainWindow):
         font.setBold(False)
         font.setFamilies(['MS Shell Dlg 2'])
 
-class CreateList(QMainWindow):
+class CreateList(QMainWindow, QSqlDatabase):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUI()
@@ -376,6 +377,7 @@ class CreateList(QMainWindow):
 
 
     def addItem(self):
+        combo = window.listcombobox
         list = self.nametextbox.toPlainText()
         createTableQuery = QSqlQuery()
         tables = createTableQuery.exec('SELECT name from sqlite_master where type="table"')
@@ -385,8 +387,9 @@ class CreateList(QMainWindow):
             print(createTableQuery.value(0))
             if list == createTableQuery.value(0):
                 print("List already exists")
-                # self.errorlabel.setVisible(True)
-                # CreateList.resize(self, 550, 225)
+                self.error = QtWidgets.QMessageBox()
+                self.error.setText("List already exists")
+                self.error.exec_()
                 self.nametextbox.clear()
                 return
         createTableQuery.exec('CREATE TABLE ' + list +
@@ -402,9 +405,8 @@ class CreateList(QMainWindow):
         )"""
         )
         print("List created")
-        # self.successlabel.setVisible(True)
-        # CreateList.resize(self, 550, 225)
-        
+        #close database connection and reopen
+        combo.addItem(list)
         self.close()
 
 if __name__ == "__main__":
