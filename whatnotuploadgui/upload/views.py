@@ -1,3 +1,4 @@
+import csv
 from ctypes import create_string_buffer
 import sqlite3
 import sys
@@ -225,7 +226,7 @@ class MainWindow(QMainWindow):
         self.viewbutton.setEnabled(True)
         self.viewbutton.setGeometry(QtCore.QRect(130, 710, 241, 81))
         self.viewbutton.setObjectName("viewbutton")
-        self.viewbutton.setText("Choose List")
+        self.viewbutton.setText("View Lists")
         self.viewbutton.setFont(font)
         self.viewbutton.clicked.connect(self.chooseList)
 
@@ -293,14 +294,47 @@ class Lists(QMainWindow):
 
     def setupUI(self):
         window = self
-        window.setWindowTitle("Create List")
+        window.setWindowTitle("View Lists")
         window.resize(550, 150)
 
-        #BUTTONS
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(False)
         font.setFamilies(['MS Shell Dlg 2'])
+
+        #LIST COMBOBOX
+        self.listcombobox = QtWidgets.QComboBox(window)
+        self.listcombobox.setGeometry(QtCore.QRect(10, 10, 531, 51))
+        self.listcombobox.setObjectName("listcombobox")
+        self.listcombobox.setFont(font)
+        createTableQuery = QSqlQuery()
+        createTableQuery.exec('SELECT name from sqlite_master where type="table"')
+        while createTableQuery.next():
+            self.listcombobox.addItem(createTableQuery.value(0))
+        self.listcombobox.setFont(font)
+
+        #BUTTONS
+        self.viewbutton = QtWidgets.QPushButton(window)
+        self.viewbutton.setEnabled(True)
+        self.viewbutton.setGeometry(QtCore.QRect(10, 70, 531, 51))
+        self.viewbutton.setObjectName("csvbutton")
+        self.viewbutton.setText("Export to csv")
+        self.viewbutton.setFont(font)
+        self.viewbutton.clicked.connect(self.exportToCsv)
+
+    def exportToCsv(self):
+        list = self.listcombobox.currentText()
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM " + list)
+        with open('csv/' + list + ".csv", 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow([i[0] for i in cur.description])
+            writer.writerows(cur.fetchall())
+        conn.close()
+        self.error = QtWidgets.QMessageBox()
+        self.error.setText("Exported to " + list + ".csv")
+        self.error.exec_()
 
 class CreateList(QMainWindow, QSqlDatabase):
     def __init__(self, parent=None):
