@@ -1,4 +1,5 @@
 from ctypes import create_string_buffer
+import sqlite3
 import sys
 import time
 from tkinter import W
@@ -266,7 +267,22 @@ class MainWindow(QMainWindow):
         quantity = self.quanspinbox.value()
         type = self.titlecombobox.currentText()
         ship = self.shipcombobox.currentText()
-
+        print(list, category, subcategory, title, desc, price, quantity, type, ship)
+        #insert into contacts database
+        if list and category and subcategory and title and desc and price and quantity and type and ship:
+            conn = sqlite3.connect('contacts.sqlite')
+            cur = conn.cursor()
+            cur.execute("INSERT INTO " + list +  " VALUES (?,?,?,?,?,?,?,?)", (category, subcategory, title, desc, price, quantity, type, ship))
+            conn.commit()
+            self.titedit.clear()
+            self.descedit.clear()
+            self.quanspinbox.setValue(1)
+            self.priedit.clear()
+        else: 
+            print("Please fill out all fields")
+            self.error = QtWidgets.QMessageBox()
+            self.error.setText("Please fill out all fields")
+            self.error.exec_()
         
 
 class Lists(QMainWindow):
