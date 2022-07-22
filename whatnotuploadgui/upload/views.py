@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         self.quanlabel.setText('Quantity')
         self.quanlabel.setObjectName("quanlabel")
         self.quanlabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.quanlabel.setGeometry(QtCore.QRect(130, 450, 271, 51))
+        self.quanlabel.setGeometry(QtCore.QRect(130, 420, 271, 51))
         self.quanlabel.setFont(font)
 
         #typelabel
