@@ -1,6 +1,7 @@
 import csv
 from ctypes import create_string_buffer
 from operator import contains
+import os
 import sqlite3
 import sys
 import time
@@ -360,9 +361,7 @@ class Table(QMainWindow):
         #setup the main window
         self.setWindowTitle("Edit List")
         self.resize(991, 731)
-
-
-
+        self.window
 
     def setupUI(self):
         #create variable for Lists listcombobox
@@ -508,6 +507,9 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     if not createConnection():
         sys.exit(1)
+    #create folder if it doesn't exist
+    if not os.path.exists('csv'):
+        os.makedirs('csv')
     window = MainWindow()
     window.createWindow()
 
