@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
  
         #subcategorylabel left, top, width, height
         self.sublabel = QtWidgets.QLabel(window)
-        self.sublabel.setText('Sub category')
+        self.sublabel.setText('Sub Category')
         self.sublabel.setObjectName('sublabel')
         self.sublabel.setAlignment(QtCore.Qt.AlignCenter)
         self.sublabel.setGeometry(QtCore.QRect(130, 170, 271, 51))
@@ -350,7 +350,7 @@ class Lists(QMainWindow):
 
     def tableview(self):
         edittable = Table(self)
-        edittable.show()
+        edittable.show()        
         Lists.close(self)
 
 
@@ -363,8 +363,36 @@ class Table(QMainWindow):
     def setupMain(self):
         #setup the main window
         self.setWindowTitle("Edit List")
-        self.resize(1780, 731)
-        self.window
+        self.resize(1780, 850)
+        
+        self.savebutton = QtWidgets.QPushButton(self)
+        self.savebutton.setGeometry(QtCore.QRect(1500, 780, 200, 51))
+        self.savebutton.setObjectName("savebutton")
+        self.savebutton.setText("Save")
+        self.savebutton.clicked.connect(self.updateData)
+
+    def tabledata(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM contacts")
+        for row_number, row_data in enumerate(cur):
+            self.table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        conn.close()
+
+    def updateData(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        for row in range(self.table.rowCount()):
+            for column in range(self.table.columnCount()):
+                print(self.table.horizontalHeaderItem(column).text())
+                cur.execute('UPDATE contacts SET ' + '"' + self.table.horizontalHeaderItem(column).text() + '"' + " = '" + self.table.item(row, column).text() + "' WHERE _rowid_ = " + str(row+1))
+        conn.commit()
+        conn.close()
+        self.error = QtWidgets.QMessageBox()
+        self.error.setText("Saved")
+        self.error.exec_()
 
     def setupUI(self):
         #create variable for Lists listcombobox
@@ -373,9 +401,8 @@ class Table(QMainWindow):
         self.table.setObjectName("table")
         self.table.setColumnCount(8)
         self.table.setRowCount(10)
-        self.table.setHorizontalHeaderLabels(["Category", "Subcategory", "Title", "Description", "Price", "Quantity", "Type", "Shipping"])
+        self.table.setHorizontalHeaderLabels(["Category", "Sub Category", "Title", "Description", "Price (If BIN)", "Quantity", "Type", "Shipping Profile"])
         self.table.setFont(QtGui.QFont("MS Shell Dlg 2", 14))
-        self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table.setShowGrid(True)
@@ -388,16 +415,10 @@ class Table(QMainWindow):
         self.table.resizeColumnToContents(5)
         self.table.setColumnWidth(6, 125)
         self.table.setColumnWidth(7, 350)
-        
-        self.table.setRowCount(100)
-        conn = sqlite3.connect('contacts.sqlite')
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM contacts" )
-        for row_number, row_data in enumerate(cur):
-            self.table.insertRow(row_number)
-            for column_number, data in enumerate(row_data):
-                self.table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
-        conn.close()
+        self.tabledata()
+        self.table.editItem(self.table.currentItem())
+        self.table.isSortingEnabled()
+
         
 
 
