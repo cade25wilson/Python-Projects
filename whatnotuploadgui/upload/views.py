@@ -22,6 +22,7 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QLayout,
     QWidget,
+    QTableWidgetItem,
 )
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
@@ -288,7 +289,6 @@ class MainWindow(QMainWindow):
             self.error.setText("Please fill out all fields")
             self.error.exec_()
         
-
 class Lists(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -330,7 +330,7 @@ class Lists(QMainWindow):
         self.listbutton.setObjectName("Listbutton")
         self.listbutton.setText("Edit List")
         self.listbutton.setFont(font)
-        self.listbutton.clicked.connect(self.clearui)
+        self.listbutton.clicked.connect(self.tableview)
 
     def exportToCsv(self):
         list = self.listcombobox.currentText()
@@ -346,13 +346,57 @@ class Lists(QMainWindow):
         self.error.setText("Exported to " + list + ".csv")
         self.error.exec_()
 
-    #resize the windows to fit the master window
-    def clearui(self, event):
-        self.resize(1000, 1000)
-        self.setFixedSize(self.size())
+    def tableview(self):
+        edittable = Table(self)
+        edittable.show()
+
+class Table(QMainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupMain()
+        self.setupUI()
+
+    def setupMain(self):
+        #setup the main window
+        self.setWindowTitle("Edit List")
+        self.resize(991, 731)
 
 
 
+
+    def setupUI(self):
+        #create variable for Lists listcombobox
+        self.table = QtWidgets.QTableWidget(self)
+        self.table.setGeometry(QtCore.QRect(10, 10, 981, 721))
+        self.table.setObjectName("table")
+        self.table.setColumnCount(8)
+        self.table.setRowCount(10)
+        self.table.setHorizontalHeaderLabels(["Category", "Subcategory", "Title", "Description", "Price", "Quantity", "Type", "Shipping"])
+        self.table.setFont(QtGui.QFont("MS Shell Dlg 2", 14))
+        self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table.setShowGrid(True)
+        self.table.setCornerButtonEnabled(True)
+        self.table.setColumnWidth(0, 150)
+        self.table.setColumnWidth(1, 150)
+        self.table.setColumnWidth(2, 150)
+        self.table.setColumnWidth(3, 150)
+        self.table.setColumnWidth(4, 150)
+        self.table.setColumnWidth(5, 150)
+        self.table.setColumnWidth(6, 150)
+        self.table.setColumnWidth(7, 150)
+        self.table.setColumnWidth(8, 150)
+        self.table.setRowCount(100)
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM contacts" )
+        for row_number, row_data in enumerate(cur):
+            self.table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        conn.close()
+        
 
 
 class CreateList(QMainWindow, QSqlDatabase):
