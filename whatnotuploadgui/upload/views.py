@@ -1,5 +1,6 @@
 import csv
 from ctypes import create_string_buffer
+from operator import contains
 import sqlite3
 import sys
 import time
@@ -218,7 +219,8 @@ class MainWindow(QMainWindow):
         self.quanspinbox = QtWidgets.QSpinBox(window)
         self.quanspinbox.setGeometry(QtCore.QRect(950, 430, 121, 51))
         self.quanspinbox.setObjectName("quanspinbox")
-
+        self.quanspinbox.setMinimum(1)
+        self.quanspinbox.setValue(1)
         #BUTTONS
 
         #viewbutton
@@ -316,11 +318,19 @@ class Lists(QMainWindow):
         #BUTTONS
         self.viewbutton = QtWidgets.QPushButton(window)
         self.viewbutton.setEnabled(True)
-        self.viewbutton.setGeometry(QtCore.QRect(10, 70, 531, 51))
+        self.viewbutton.setGeometry(QtCore.QRect(342, 80, 200, 51))
         self.viewbutton.setObjectName("csvbutton")
-        self.viewbutton.setText("Export to csv")
+        self.viewbutton.setText("Export To CSV")
         self.viewbutton.setFont(font)
         self.viewbutton.clicked.connect(self.exportToCsv)
+
+        self.listbutton = QtWidgets.QPushButton(window)
+        self.listbutton.setEnabled(True)
+        self.listbutton.setGeometry(QtCore.QRect(10, 80, 200, 51))
+        self.listbutton.setObjectName("Listbutton")
+        self.listbutton.setText("Edit List")
+        self.listbutton.setFont(font)
+        self.listbutton.clicked.connect(self.clearui)
 
     def exportToCsv(self):
         list = self.listcombobox.currentText()
@@ -335,6 +345,15 @@ class Lists(QMainWindow):
         self.error = QtWidgets.QMessageBox()
         self.error.setText("Exported to " + list + ".csv")
         self.error.exec_()
+
+    #resize the windows to fit the master window
+    def clearui(self, event):
+        self.resize(1000, 1000)
+        self.setFixedSize(self.size())
+
+
+
+
 
 class CreateList(QMainWindow, QSqlDatabase):
     def __init__(self, parent=None):
@@ -426,21 +445,18 @@ class CreateList(QMainWindow, QSqlDatabase):
                 self.error.exec_()
                 self.nametextbox.clear()
                 return
-        createTableQuery.exec('CREATE TABLE ' + list +
-        """(
-            "Category"	TEXT,
-            "Sub Category"	TEXT,
-            "Title"	TEXT,
-            "Description"	TEXT,
-            "Quantity"	TEXT,
-            "Type"	TEXT,
-            "Price (If BIN)"	TEXT,
-            "Shipping Profile"	TEXT
-        )"""
-        )
-        print("List created")
-        #close database connection and reopen
-        combo.addItem(list)
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        if list.__contains__('"'):
+            cur.execute("CREATE TABLE " + list  + " ('Category' Text, 'Sub Category' TEXT, 'Title' Text, 'Description' Text, 'Quantity' Text, 'Type' Text, 'Price (If BIN)' Text, 'Shipping Profile' Text)")
+            conn.commit()   
+            print("List created")
+            combo.addItem(list) 
+        else:
+            cur.execute("CREATE TABLE " + '"' + list + '"' + " ('Category' Text, 'Sub Category' TEXT, 'Title' Text, 'Description' Text, 'Quantity' Text, 'Type' Text, 'Price (If BIN)' Text, 'Shipping Profile' Text)")
+            conn.commit()   
+            print("List created")
+            combo.addItem(list)
         self.close()
 
 if __name__ == "__main__":
