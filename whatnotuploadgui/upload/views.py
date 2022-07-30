@@ -289,6 +289,7 @@ class MainWindow(QMainWindow):
             self.error = QtWidgets.QMessageBox()
             self.error.setText("Please fill out all fields")
             self.error.exec_()
+
         
 class Lists(QMainWindow):
     def __init__(self, parent=None):
@@ -350,6 +351,8 @@ class Lists(QMainWindow):
     def tableview(self):
         edittable = Table(self)
         edittable.show()
+        Lists.close(self)
+
 
 class Table(QMainWindow):
     def __init__(self, parent=None):
@@ -360,13 +363,13 @@ class Table(QMainWindow):
     def setupMain(self):
         #setup the main window
         self.setWindowTitle("Edit List")
-        self.resize(991, 731)
+        self.resize(1780, 731)
         self.window
 
     def setupUI(self):
         #create variable for Lists listcombobox
         self.table = QtWidgets.QTableWidget(self)
-        self.table.setGeometry(QtCore.QRect(10, 10, 981, 721))
+        self.table.setGeometry(QtCore.QRect(10, 10, 1770, 721))
         self.table.setObjectName("table")
         self.table.setColumnCount(8)
         self.table.setRowCount(10)
@@ -377,15 +380,15 @@ class Table(QMainWindow):
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.table.setShowGrid(True)
         self.table.setCornerButtonEnabled(True)
-        self.table.setColumnWidth(0, 150)
-        self.table.setColumnWidth(1, 150)
-        self.table.setColumnWidth(2, 150)
-        self.table.setColumnWidth(3, 150)
-        self.table.setColumnWidth(4, 150)
-        self.table.setColumnWidth(5, 150)
-        self.table.setColumnWidth(6, 150)
-        self.table.setColumnWidth(7, 150)
-        self.table.setColumnWidth(8, 150)
+        self.table.setColumnWidth(0, 300)
+        self.table.setColumnWidth(1, 280)
+        self.table.setColumnWidth(2, 200)
+        self.table.setColumnWidth(3, 250)
+        self.table.setColumnWidth(4, 75)
+        self.table.resizeColumnToContents(5)
+        self.table.setColumnWidth(6, 125)
+        self.table.setColumnWidth(7, 350)
+        
         self.table.setRowCount(100)
         conn = sqlite3.connect('contacts.sqlite')
         cur = conn.cursor()
