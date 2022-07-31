@@ -363,7 +363,7 @@ class Table(QMainWindow):
     def setupMain(self):
         #setup the main window
         self.setWindowTitle("Edit List")
-        self.resize(1780, 850)
+        self.resize(1850, 850)
         
         self.savebutton = QtWidgets.QPushButton(self)
         self.savebutton.setGeometry(QtCore.QRect(1500, 780, 200, 51))
@@ -394,13 +394,22 @@ class Table(QMainWindow):
         self.error.setText("Saved")
         self.error.exec_()
 
+    #get number of entries in table
+    def getRowCount(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM contacts")
+        rowcount = cur.rowcount
+        conn.close()
+        return rowcount
+
     def setupUI(self):
         #create variable for Lists listcombobox
         self.table = QtWidgets.QTableWidget(self)
-        self.table.setGeometry(QtCore.QRect(10, 10, 1770, 721))
+        self.table.setGeometry(QtCore.QRect(10, 10, 1826, 721))
         self.table.setObjectName("table")
         self.table.setColumnCount(8)
-        self.table.setRowCount(10)
+        self.table.setRowCount(self.getRowCount())
         self.table.setHorizontalHeaderLabels(["Category", "Sub Category", "Title", "Description", "Price (If BIN)", "Quantity", "Type", "Shipping Profile"])
         self.table.setFont(QtGui.QFont("MS Shell Dlg 2", 14))
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -411,7 +420,7 @@ class Table(QMainWindow):
         self.table.setColumnWidth(1, 280)
         self.table.setColumnWidth(2, 200)
         self.table.setColumnWidth(3, 250)
-        self.table.setColumnWidth(4, 75)
+        self.table.resizeColumnToContents(4)
         self.table.resizeColumnToContents(5)
         self.table.setColumnWidth(6, 125)
         self.table.setColumnWidth(7, 350)
