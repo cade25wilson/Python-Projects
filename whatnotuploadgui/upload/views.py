@@ -7,7 +7,7 @@ import sys
 import time
 from tkinter import W
 from unicodedata import category
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import (
     QAbstractItemView,
@@ -25,6 +25,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QTableWidgetItem,
 )
+
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 from database import createConnection
@@ -292,6 +293,7 @@ class MainWindow(QMainWindow):
 
         
 class Lists(QMainWindow):
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUI()
@@ -353,23 +355,27 @@ class Lists(QMainWindow):
         edittable.show()        
         Lists.close(self)
 
-
 class Table(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupMain()
-        self.setupUI()
+        self.setupTable()
 
     def setupMain(self):
         #setup the main window
         self.setWindowTitle("Edit List")
-        self.resize(1850, 850)
+        self.resize(1865, 950)
         
+        #BUTTONS
         self.savebutton = QtWidgets.QPushButton(self)
-        self.savebutton.setGeometry(QtCore.QRect(1500, 780, 200, 51))
+        self.savebutton.setGeometry(QtCore.QRect(1500, 880, 200, 51))
         self.savebutton.setObjectName("savebutton")
         self.savebutton.setText("Save")
         self.savebutton.clicked.connect(self.updateData)
+
+        #LIST COMBOBOX 
+        self.listcombobox = QtWidgets.QComboBox(self)
+        self.listcombobox.setGeometry(QtCore.QRect(640, 20, 500, 51))
 
     def tabledata(self):
         conn = sqlite3.connect('contacts.sqlite')
@@ -403,10 +409,10 @@ class Table(QMainWindow):
         conn.close()
         return rowcount
 
-    def setupUI(self):
+    def setupTable(self):
         #create variable for Lists listcombobox
         self.table = QtWidgets.QTableWidget(self)
-        self.table.setGeometry(QtCore.QRect(10, 10, 1826, 721))
+        self.table.setGeometry(QtCore.QRect(10, 90, 1850, 721))
         self.table.setObjectName("table")
         self.table.setColumnCount(8)
         self.table.setRowCount(self.getRowCount())
@@ -427,9 +433,6 @@ class Table(QMainWindow):
         self.tabledata()
         self.table.editItem(self.table.currentItem())
         self.table.isSortingEnabled()
-
-        
-
 
 class CreateList(QMainWindow, QSqlDatabase):
     def __init__(self, parent=None):
