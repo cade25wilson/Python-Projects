@@ -1,2 +1,3 @@
 whatnotuploadgui/contacts.sqlite
 *.csv
+whatnotuploadgui/production/upload.py

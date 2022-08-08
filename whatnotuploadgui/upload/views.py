@@ -1,12 +1,13 @@
 import csv
 from ctypes import create_string_buffer
 from operator import contains
+import os
 import sqlite3
 import sys
 import time
 from tkinter import W
 from unicodedata import category
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import (
     QAbstractItemView,
@@ -22,7 +23,9 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QLayout,
     QWidget,
+    QTableWidgetItem,
 )
+
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 from database import createConnection
@@ -59,7 +62,7 @@ class MainWindow(QMainWindow):
  
         #subcategorylabel left, top, width, height
         self.sublabel = QtWidgets.QLabel(window)
-        self.sublabel.setText('Sub category')
+        self.sublabel.setText('Sub Category')
         self.sublabel.setObjectName('sublabel')
         self.sublabel.setAlignment(QtCore.Qt.AlignCenter)
         self.sublabel.setGeometry(QtCore.QRect(130, 170, 271, 51))
@@ -287,8 +290,8 @@ class MainWindow(QMainWindow):
             self.error = QtWidgets.QMessageBox()
             self.error.setText("Please fill out all fields")
             self.error.exec_()
-        
 
+        
 class Lists(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -330,7 +333,7 @@ class Lists(QMainWindow):
         self.listbutton.setObjectName("Listbutton")
         self.listbutton.setText("Edit List")
         self.listbutton.setFont(font)
-        self.listbutton.clicked.connect(self.clearui)
+        self.listbutton.clicked.connect(self.tableview)
 
     def exportToCsv(self):
         list = self.listcombobox.currentText()
@@ -346,14 +349,94 @@ class Lists(QMainWindow):
         self.error.setText("Exported to " + list + ".csv")
         self.error.exec_()
 
-    #resize the windows to fit the master window
-    def clearui(self, event):
-        self.resize(1000, 1000)
-        self.setFixedSize(self.size())
+    def tableview(self):
+        edittable = Table(self)
+        edittable.show()      
+        Lists.close(self)
 
+class Table(QMainWindow):
+    def __init__(self, parent=Lists):
+        super().__init__(parent)
+        self.setupMain()
+        self.setupTable()
 
+    def currentList(parent):
+        return parent.listcombobox.currentText()
 
+    def setupMain(self):
+        #setup the main window
+        self.setWindowTitle("Edit List")
+        self.resize(1865, 950)
+        
+        #BUTTONS
+        self.savebutton = QtWidgets.QPushButton(self)
+        self.savebutton.setGeometry(QtCore.QRect(1500, 880, 200, 51))
+        self.savebutton.setObjectName("savebutton")
+        self.savebutton.setText("Save")
+        self.savebutton.clicked.connect(self.updateData)
 
+        #LIST COMBOBOX 
+        self.listcombobox = QtWidgets.QLabel(self)
+        self.listcombobox.setGeometry(QtCore.QRect(640, 20, 500, 51))
+        self.listcombobox.setText("Current List: " )
+        self.listcombobox.setFont(QtGui.QFont("MS Shell Dlg 2", 18, QtGui.QFont.Bold))
+
+    def tabledata(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM contacts")
+        for row_number, row_data in enumerate(cur):
+            self.table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        conn.close()
+
+    def updateData(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        for row in range(self.table.rowCount()):
+            for column in range(self.table.columnCount()):
+                print(self.table.horizontalHeaderItem(column).text())
+                cur.execute('UPDATE contacts SET ' + '"' + self.table.horizontalHeaderItem(column).text() + '"' + " = '" + self.table.item(row, column).text() + "' WHERE _rowid_ = " + str(row+1))
+        conn.commit()
+        conn.close()
+        self.error = QtWidgets.QMessageBox()
+        self.error.setText("Saved")
+        self.error.exec_()
+
+    #get number of entries in table
+    def getRowCount(self):
+        conn = sqlite3.connect('contacts.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM contacts")
+        rowcount = cur.rowcount
+        conn.close()
+        return rowcount
+
+    def setupTable(self):
+        #create variable for Lists listcombobox
+        self.table = QtWidgets.QTableWidget(self)
+        self.table.setGeometry(QtCore.QRect(10, 90, 1850, 721))
+        self.table.setObjectName("table")
+        self.table.setColumnCount(8)
+        self.table.setRowCount(self.getRowCount())
+        self.table.setHorizontalHeaderLabels(["Category", "Sub Category", "Title", "Description", "Price (If BIN)", "Quantity", "Type", "Shipping Profile"])
+        self.table.setFont(QtGui.QFont("MS Shell Dlg 2", 14))
+        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.table.setShowGrid(True)
+        self.table.setCornerButtonEnabled(True)
+        self.table.setColumnWidth(0, 300)
+        self.table.setColumnWidth(1, 280)
+        self.table.setColumnWidth(2, 200)
+        self.table.setColumnWidth(3, 250)
+        self.table.resizeColumnToContents(4)
+        self.table.resizeColumnToContents(5)
+        self.table.setColumnWidth(6, 125)
+        self.table.setColumnWidth(7, 350)
+        self.tabledata()
+        self.table.editItem(self.table.currentItem())
+        self.table.isSortingEnabled()
 
 class CreateList(QMainWindow, QSqlDatabase):
     def __init__(self, parent=None):
@@ -464,6 +547,9 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     if not createConnection():
         sys.exit(1)
+    #create folder if it doesn't exist
+    if not os.path.exists('csv'):
+        os.makedirs('csv')
     window = MainWindow()
     window.createWindow()
 
