@@ -293,7 +293,6 @@ class MainWindow(QMainWindow):
 
         
 class Lists(QMainWindow):
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUI()
@@ -352,14 +351,17 @@ class Lists(QMainWindow):
 
     def tableview(self):
         edittable = Table(self)
-        edittable.show()        
+        edittable.show()      
         Lists.close(self)
 
 class Table(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent=Lists):
         super().__init__(parent)
         self.setupMain()
         self.setupTable()
+
+    def currentList(parent):
+        return parent.listcombobox.currentText()
 
     def setupMain(self):
         #setup the main window
@@ -374,8 +376,10 @@ class Table(QMainWindow):
         self.savebutton.clicked.connect(self.updateData)
 
         #LIST COMBOBOX 
-        self.listcombobox = QtWidgets.QComboBox(self)
+        self.listcombobox = QtWidgets.QLabel(self)
         self.listcombobox.setGeometry(QtCore.QRect(640, 20, 500, 51))
+        self.listcombobox.setText("Current List: " )
+        self.listcombobox.setFont(QtGui.QFont("MS Shell Dlg 2", 18, QtGui.QFont.Bold))
 
     def tabledata(self):
         conn = sqlite3.connect('contacts.sqlite')
