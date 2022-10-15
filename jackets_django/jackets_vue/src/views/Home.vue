@@ -18,11 +18,11 @@
 
           <div class="column is-3"
           v-for="product in latestProducts"
-          v-bink:key="product.id"
+          v-bind:key="product.id"
           >
           <div class="box">
               <figure class="image mb-4">
-                  <img v-bing:src="product.get_thumbnail">
+                  <img v-bind:src="product.get_thumbnail">
               </figure>
 
               <h3 class="is-size-4">{{ product.name }}</h3>
@@ -36,9 +36,39 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'HomeView',
+  name: 'Home',
+  data() {
+    return {
+      latestProducts: []
+    }
+  },
   components: {
+  }, 
+  mounted(){
+    this.getLatestProducts();
+  },
+  methods: {
+    getLatestProducts() {
+        axios
+        .get('api/v1/latest-products')
+        .then(response => {
+          this.latestProducts = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   }
 }
 </script>
+
+<style scoped>
+    .image {
+        margin-top: -1.25rem;
+        margin-left: -1.25rem;
+        margin-right: -1.25rem;
+    }
+</style>
